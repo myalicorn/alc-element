@@ -299,6 +299,7 @@
         default: 'value'
       },
       collapseTags: Boolean,
+      blurAsEnter: Boolean,
       popperAppendToBody: {
         type: Boolean,
         default: true
@@ -371,7 +372,9 @@
           if (this.$refs.input) {
             this.$refs.input.blur();
           }
-          this.query = '';
+          if (!this.blurAsEnter) {
+            this.query = '';
+          }
           this.previousQuery = null;
           this.selectedLabel = '';
           this.inputLength = 20;
@@ -398,6 +401,9 @@
             if (this.filterable) {
               this.currentPlaceholder = this.cachedPlaceHolder;
             }
+          }
+          if (this.blurAsEnter && this.options[this.hoverIndex]) {
+            this.handleOptionSelect(this.options[this.hoverIndex]);
           }
         } else {
           this.broadcast('ElSelectDropdown', 'updatePopper');
